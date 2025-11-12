@@ -1,114 +1,155 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Temario — Estructura y navegación</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Temario Navegable - Estructura y Navegación</title>
 <style>
-:root{--accent:#0b74de;--bg:#f6f8fb;--surface:#ffffff;--muted:#6b7280}
-*{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;line-height:1.4;background:var(--bg);color:#111}
-
-
-/* Skip link */
-.skip-link{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden}
-.skip-link:focus{left:1rem;top:1rem;width:auto;height:auto;background:#000;color:#fff;padding:.5rem 1rem;border-radius:4px}
-
-
-/* Fixed top menu */
-header{position:fixed;left:0;right:0;top:0;height:64px;background:var(--surface);display:flex;align-items:center;gap:1rem;padding:0 1rem;border-bottom:1px solid #e6e9ee;z-index:50}
-.brand{font-weight:700;color:var(--accent);font-size:1.05rem}
-.top-controls{margin-left:auto;display:flex;align-items:center;gap:.5rem}
-.search {position:relative}
-.search input{height:38px;padding:6px 36px 6px 10px;border-radius:8px;border:1px solid #d6dae3;background:#fff}
-.search button{position:absolute;right:4px;top:4px;border:0;background:transparent;padding:.25rem;cursor:pointer}
-
-
-/* layout */
-.layout{display:flex;padding-top:64px;min-height:100vh}
-
-
-/* Sidebar */
-.sidebar{width:260px;background:var(--surface);border-right:1px solid #e6e9ee;padding:1rem;transition:transform .25s ease;}
-.sidebar.collapsed{transform:translateX(-110%)}
-.sidebar nav ul{list-style:none;padding:0;margin:0}
-.sidebar a{display:flex;align-items:center;gap:.5rem;padding:.5rem .6rem;border-radius:6px;color:#111;text-decoration:none}
-.sidebar a:focus,.sidebar a:hover{background:#f0f6ff}
-.sidebar .section-title{font-weight:700;margin-top:.5rem;margin-bottom:.25rem;color:var(--muted);font-size:.85rem}
-.toggle-sidebar{display:none}
-
-
-/* main content */
-main{flex:1;padding:1.25rem}
-.container{max-width:1100px;margin:0 auto}
-
-
-/* breadcrumb */
-.breadcrumb{font-size:.95rem;margin-bottom:1rem;color:var(--muted)}
-.breadcrumb a{text-decoration:none;color:inherit}
-.breadcrumb a:hover{text-decoration:underline}
-
-
-/* dropdown menu */
-.dropdown{position:relative}
-.dropdown button{background:transparent;border:0;padding:.35rem .5rem;border-radius:6px;cursor:pointer}
-.menu{position:absolute;left:0;top:calc(100% + .25rem);background:var(--surface);border:1px solid #e6e9ee;padding:.5rem;border-radius:8px;min-width:220px;box-shadow:0 8px 24px rgba(16,24,40,.08);display:none}
-.menu a{display:block;padding:.45rem .6rem;border-radius:6px}
-.menu a:focus,.menu a:hover{background:#f0f6ff}
-.dropdown[aria-expanded="true"] .menu{display:block}
-
-
-/* cards and list for temario */
-.card{background:var(--surface);padding:1rem;border-radius:10px;border:1px solid #e6e9ee}
-.topics ul{list-style:none;padding:0;margin:0}
-.topics li{padding:.5rem .6rem;border-bottom:1px dashed #eef2f7}
-.topics button{background:transparent;border:0;padding:0;color:inherit;text-align:left;width:100%;cursor:pointer}
-
-
-/* responsive */
-@media (max-width:900px){
-.sidebar{position:fixed;z-index:60;left:0;top:64px;height:calc(100vh - 64px)}
-.toggle-sidebar{display:inline-block;margin-right:.5rem}
-.sidebar.collapsed{transform:translateX(-100%)}
-}
-
-
-/* small touches */
-.muted{color:var(--muted)}
-.btn{background:var(--accent);color:#fff;padding:.45rem .7rem;border-radius:8px;border:0;cursor:pointer}
-.secondary{background:transparent;border:1px solid #d6dae3;padding:.4rem .6rem;border-radius:8px}
-
-
-/* focus outline for accessibility */
-:focus{outline:3px solid rgba(11,116,222,.15);outline-offset:2px}
+  *{box-sizing:border-box;margin:0;padding:0;font-family:Arial, sans-serif;}
+  body{display:flex;min-height:100vh;background:#f6f8fb;}
+  header{
+    position:fixed;top:0;left:0;right:0;
+    height:60px;background:#004aad;color:#fff;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 1rem;z-index:100;
+  }
+  header h1{font-size:1.1rem;}
+  header input{padding:6px 8px;border-radius:4px;border:none;}
+  .container{display:flex;width:100%;margin-top:60px;}
+  nav.sidebar{
+    width:240px;background:#fff;border-right:1px solid #ddd;
+    padding:1rem;overflow-y:auto;position:fixed;top:60px;bottom:0;
+  }
+  nav ul{list-style:none;}
+  nav a{text-decoration:none;color:#333;display:block;padding:6px 8px;border-radius:4px;}
+  nav a:hover{background:#e9f1ff;}
+  nav li ul{margin-left:10px;margin-top:4px;}
+  main{margin-left:260px;padding:1.5rem;flex:1;}
+  .breadcrumb{font-size:.9rem;color:#666;margin-bottom:1rem;}
+  .breadcrumb a{text-decoration:none;color:#004aad;}
+  .breadcrumb a:hover{text-decoration:underline;}
+  .dropdown{position:relative;display:inline-block;}
+  .dropdown button{
+    background:#fff;color:#004aad;border:1px solid #004aad;
+    padding:4px 8px;border-radius:4px;cursor:pointer;
+  }
+  .dropdown-content{
+    display:none;position:absolute;background:#fff;border:1px solid #ddd;
+    min-width:150px;z-index:10;
+  }
+  .dropdown-content a{display:block;padding:6px 10px;}
+  .dropdown-content a:hover{background:#f0f6ff;}
+  .dropdown:hover .dropdown-content{display:block;}
 </style>
 </head>
 <body>
-<a class="skip-link" href="#main">Saltar al contenido</a>
 
-
-<header role="banner">
-<button class="toggle-sidebar" id="btnToggleSidebar" aria-label="Mostrar u ocultar menú lateral">☰</button>
-<div class="brand">Temario — Navegación UX</div>
-
-
-<div class="top-controls">
-<div class="dropdown" id="topDropdown" aria-expanded="false">
-<button id="btnResources" aria-haspopup="true" aria-controls="menuResources">Recursos ▾</button>
-<div class="menu" id="menuResources" role="menu">
-<a role="menuitem" href="#">Guía de navegación</a>
-<a role="menuitem" href="#">Checklist de accesibilidad</a>
-<a role="menuitem" href="#">Ejemplos</a>
-</div>
-</div>
-
-
-<div class="search" role="search" aria-label="Buscar en el temario">
-<input id="searchInput" type="search" placeholder="Buscar (ej. accesibilidad, breadcrumb)" aria-label="Buscar en el temario" />
-<button aria-label="Limpiar búsqueda" id="clearSearch">✕</button>
-</div>
-
-
-<button class="secondary" id="helpBtn">Ayuda</button>
-</div>
+<header>
+  <h1>Temario de Navegación Web</h1>
+  <input type="search" id="buscar" placeholder="Buscar...">
 </header>
+
+<div class="container">
+  <nav class="sidebar">
+    <ul>
+      <li><a href="#" data-section="inicio">Inicio</a></li>
+      <li>
+        <a href="#">1. Principios de Diseño</a>
+        <ul>
+          <li><a href="#" data-section="claridad">1.1 Claridad y Consistencia</a></li>
+          <li><a href="#" data-section="simplicidad">1.2 Simplicidad</a></li>
+          <li><a href="#" data-section="accesibilidad">1.3 Accesibilidad</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">2. Técnicas de Navegación</a>
+        <ul>
+          <li><a href="#" data-section="menu">2.1 Menú Principal</a></li>
+          <li><a href="#" data-section="migas">2.2 Migas de Pan</a></li>
+          <li><a href="#" data-section="busqueda">2.3 Búsqueda Interna</a></li>
+        </ul>
+      </li>
+      <li><a href="#" data-section="conclusion">Conclusión</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <div class="breadcrumb" id="breadcrumb">Inicio</div>
+
+    <div id="contenido">
+      <h2>Bienvenido</h2>
+      <p>Selecciona un tema del menú lateral para ver su contenido.</p>
+    </div>
+  </main>
+</div>
+
+<script>
+const secciones = {
+  inicio:{
+    titulo:"Inicio",
+    texto:"En este temario se exploran los principios y técnicas para diseñar una navegación clara y eficiente."
+  },
+  claridad:{
+    titulo:"1.1 Claridad y Consistencia",
+    texto:"Los usuarios deben entender de inmediato cómo moverse dentro del sitio. Las etiquetas deben ser claras y coherentes."
+  },
+  simplicidad:{
+    titulo:"1.2 Simplicidad",
+    texto:"La navegación debe ser lo más simple posible, evitando menús innecesariamente profundos."
+  },
+  accesibilidad:{
+    titulo:"1.3 Accesibilidad",
+    texto:"La accesibilidad garantiza que todas las personas puedan usar la interfaz, incluyendo navegación por teclado y lectores de pantalla."
+  },
+  menu:{
+    titulo:"2.1 Menú Principal",
+    texto:"El menú principal es la base de la navegación. Puede ser fijo, lateral o desplegable, pero siempre debe ser coherente."
+  },
+  migas:{
+    titulo:"2.2 Migas de Pan",
+    texto:"Las migas de pan muestran la ruta jerárquica y permiten volver fácilmente a niveles anteriores."
+  },
+  busqueda:{
+    titulo:"2.3 Búsqueda Interna",
+    texto:"Una buena búsqueda interna ofrece autocompletado, filtros y resultados relevantes para el usuario."
+  },
+  conclusion:{
+    titulo:"Conclusión",
+    texto:"Una navegación clara, accesible y bien estructurada mejora la experiencia de usuario y el SEO del sitio."
+  }
+};
+
+const links = document.querySelectorAll('nav a[data-section]');
+const breadcrumb = document.getElementById('breadcrumb');
+const contenido = document.getElementById('contenido');
+
+links.forEach(link=>{
+  link.addEventListener('click', e=>{
+    e.preventDefault();
+    const id = link.dataset.section;
+    mostrarSeccion(id);
+  });
+});
+
+function mostrarSeccion(id){
+  const data = secciones[id];
+  if(!data) return;
+  contenido.innerHTML = `<h2>${data.titulo}</h2><p>${data.texto}</p>`;
+  actualizarBreadcrumb(data.titulo);
+}
+
+function actualizarBreadcrumb(nombre){
+  breadcrumb.innerHTML = `<a href="#" data-section="inicio">Inicio</a> › ${nombre}`;
+}
+
+// búsqueda interna
+document.getElementById('buscar').addEventListener('input', e=>{
+  const valor = e.target.value.toLowerCase();
+  document.querySelectorAll('nav a[data-section]').forEach(a=>{
+    const visible = a.textContent.toLowerCase().includes(valor);
+    a.style.display = visible ? '' : 'none';
+  });
+});
+</script>
+</body>
+</html>
