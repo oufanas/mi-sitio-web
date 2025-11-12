@@ -1,8 +1,114 @@
-<HTML>
-  <head>
-    <title>Mi primera WEB</title>
-  </head>
-  <body>
-      <h1>Hola mundo!</h1>
-  </body>  
-</HTML>
+<!doctype html>
+<div class="card">
+<div class="breadcrumb" aria-label="Breadcrumb">
+<a href="#">Inicio</a>
+<span class="sep">/</span>
+<a href="#">Productos</a>
+<span class="sep">/</span>
+<span>Catálogo</span>
+</div>
+
+
+<div class="title">Página: Catálogo de productos</div>
+<p class="muted">Ejemplo con menú fijo superior, navegación lateral, migas de pan, submenús y búsqueda interna que filtra los enlaces del menú.</p>
+
+
+<hr style="margin:16px 0" />
+
+
+<section>
+<h3>Buscar dentro del contenido</h3>
+<p>La búsqueda del topbar enfoca el campo y puede usarse para buscar en toda la aplicación; la búsqueda de la barra lateral filtra las entradas del menú.</p>
+<label style="display:block;margin:8px 0">Buscar contenido:</label>
+<input id="contentSearch" placeholder="Buscar en el contenido (filtrado de ejemplo)" style="padding:8px;width:100%;max-width:480px;border-radius:6px;border:1px solid #e6e9ef" />
+
+
+<div id="searchResults" style="margin-top:12px"></div>
+</section>
+
+
+</div>
+</main>
+</div>
+
+
+<script>
+// Sidebar toggle for small screens
+const toggleBtn = document.getElementById('toggleSidebar');
+const sidebar = document.getElementById('sidebar');
+toggleBtn.addEventListener('click',()=> sidebar.classList.toggle('open'));
+
+
+// Submenu toggles
+document.querySelectorAll('.sub-toggle').forEach(btn=>{
+btn.addEventListener('click', (e)=>{
+const li = btn.closest('.has-sub');
+li.classList.toggle('open');
+});
+});
+
+
+// Sidebar search: filter visible links by keyword/text
+const sidebarSearch = document.getElementById('sidebarSearch');
+const navList = document.getElementById('navList');
+sidebarSearch.addEventListener('input', ()=> filterNav(sidebarSearch.value));
+
+
+function filterNav(query){
+const q = query.trim().toLowerCase();
+Array.from(navList.children).forEach(node=>{
+// skip section labels
+if(node.classList.contains('section')) return;
+const text = (node.innerText || '').toLowerCase();
+const kw = (node.dataset.keyword || '').toLowerCase();
+const match = q === '' || text.indexOf(q) !== -1 || kw.indexOf(q) !== -1;
+node.style.display = match ? '' : 'none';
+})
+}
+
+
+// Global search: focus slash shortcut and basic content search
+const globalSearch = document.getElementById('globalSearch');
+const contentSearch = document.getElementById('contentSearch');
+const searchResults = document.getElementById('searchResults');
+
+
+// Shortcut to focus global search when pressing '/'
+window.addEventListener('keydown', (e)=>{
+if(e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA'){
+e.preventDefault(); globalSearch.focus();
+}
+});
+
+
+// Simple content search demo: matches hard-coded items
+const demoItems = [
+'Camiseta deportiva', 'Zapatillas running', 'Chaqueta impermeable', 'Pantalones vaqueros',
+'Bolso de mano', 'Cargador USB-C', 'Auriculares Bluetooth'
+];
+
+
+contentSearch.addEventListener('input', ()=>{
+const q = contentSearch.value.trim().toLowerCase();
+if(q === ''){ searchResults.innerHTML = '' ; return }
+const matches = demoItems.filter(i=> i.toLowerCase().includes(q));
+if(matches.length===0){ searchResults.innerHTML = '<div class="muted">No se encontraron resultados.</div>'; return }
+searchResults.innerHTML = '<ul>' + matches.map(m=> '<li>'+m+'</li>').join('') + '</ul>';
+});
+
+
+// Accessibility: close sidebar on escape (mobile)
+window.addEventListener('keydown', (e)=>{
+if(e.key === 'Escape') sidebar.classList.remove('open');
+});
+
+
+// Close other open submenus if desired (optional)
+// document.querySelectorAll('.has-sub > .sub-toggle').forEach(btn => {
+// btn.addEventListener('click', () => {
+// // close siblings
+// });
+// });
+</script>
+</body>
+</html>
