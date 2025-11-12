@@ -1,114 +1,114 @@
 <!doctype html>
-<div class="card">
-<div class="breadcrumb" aria-label="Breadcrumb">
-<a href="#">Inicio</a>
-<span class="sep">/</span>
-<a href="#">Productos</a>
-<span class="sep">/</span>
-<span>Catálogo</span>
-</div>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Temario — Estructura y navegación</title>
+<style>
+:root{--accent:#0b74de;--bg:#f6f8fb;--surface:#ffffff;--muted:#6b7280}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;line-height:1.4;background:var(--bg);color:#111}
 
 
-<div class="title">Página: Catálogo de productos</div>
-<p class="muted">Ejemplo con menú fijo superior, navegación lateral, migas de pan, submenús y búsqueda interna que filtra los enlaces del menú.</p>
+/* Skip link */
+.skip-link{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden}
+.skip-link:focus{left:1rem;top:1rem;width:auto;height:auto;background:#000;color:#fff;padding:.5rem 1rem;border-radius:4px}
 
 
-<hr style="margin:16px 0" />
+/* Fixed top menu */
+header{position:fixed;left:0;right:0;top:0;height:64px;background:var(--surface);display:flex;align-items:center;gap:1rem;padding:0 1rem;border-bottom:1px solid #e6e9ee;z-index:50}
+.brand{font-weight:700;color:var(--accent);font-size:1.05rem}
+.top-controls{margin-left:auto;display:flex;align-items:center;gap:.5rem}
+.search {position:relative}
+.search input{height:38px;padding:6px 36px 6px 10px;border-radius:8px;border:1px solid #d6dae3;background:#fff}
+.search button{position:absolute;right:4px;top:4px;border:0;background:transparent;padding:.25rem;cursor:pointer}
 
 
-<section>
-<h3>Buscar dentro del contenido</h3>
-<p>La búsqueda del topbar enfoca el campo y puede usarse para buscar en toda la aplicación; la búsqueda de la barra lateral filtra las entradas del menú.</p>
-<label style="display:block;margin:8px 0">Buscar contenido:</label>
-<input id="contentSearch" placeholder="Buscar en el contenido (filtrado de ejemplo)" style="padding:8px;width:100%;max-width:480px;border-radius:6px;border:1px solid #e6e9ef" />
+/* layout */
+.layout{display:flex;padding-top:64px;min-height:100vh}
 
 
-<div id="searchResults" style="margin-top:12px"></div>
-</section>
+/* Sidebar */
+.sidebar{width:260px;background:var(--surface);border-right:1px solid #e6e9ee;padding:1rem;transition:transform .25s ease;}
+.sidebar.collapsed{transform:translateX(-110%)}
+.sidebar nav ul{list-style:none;padding:0;margin:0}
+.sidebar a{display:flex;align-items:center;gap:.5rem;padding:.5rem .6rem;border-radius:6px;color:#111;text-decoration:none}
+.sidebar a:focus,.sidebar a:hover{background:#f0f6ff}
+.sidebar .section-title{font-weight:700;margin-top:.5rem;margin-bottom:.25rem;color:var(--muted);font-size:.85rem}
+.toggle-sidebar{display:none}
 
 
-</div>
-</main>
-</div>
+/* main content */
+main{flex:1;padding:1.25rem}
+.container{max-width:1100px;margin:0 auto}
 
 
-<script>
-// Sidebar toggle for small screens
-const toggleBtn = document.getElementById('toggleSidebar');
-const sidebar = document.getElementById('sidebar');
-toggleBtn.addEventListener('click',()=> sidebar.classList.toggle('open'));
+/* breadcrumb */
+.breadcrumb{font-size:.95rem;margin-bottom:1rem;color:var(--muted)}
+.breadcrumb a{text-decoration:none;color:inherit}
+.breadcrumb a:hover{text-decoration:underline}
 
 
-// Submenu toggles
-document.querySelectorAll('.sub-toggle').forEach(btn=>{
-btn.addEventListener('click', (e)=>{
-const li = btn.closest('.has-sub');
-li.classList.toggle('open');
-});
-});
+/* dropdown menu */
+.dropdown{position:relative}
+.dropdown button{background:transparent;border:0;padding:.35rem .5rem;border-radius:6px;cursor:pointer}
+.menu{position:absolute;left:0;top:calc(100% + .25rem);background:var(--surface);border:1px solid #e6e9ee;padding:.5rem;border-radius:8px;min-width:220px;box-shadow:0 8px 24px rgba(16,24,40,.08);display:none}
+.menu a{display:block;padding:.45rem .6rem;border-radius:6px}
+.menu a:focus,.menu a:hover{background:#f0f6ff}
+.dropdown[aria-expanded="true"] .menu{display:block}
 
 
-// Sidebar search: filter visible links by keyword/text
-const sidebarSearch = document.getElementById('sidebarSearch');
-const navList = document.getElementById('navList');
-sidebarSearch.addEventListener('input', ()=> filterNav(sidebarSearch.value));
+/* cards and list for temario */
+.card{background:var(--surface);padding:1rem;border-radius:10px;border:1px solid #e6e9ee}
+.topics ul{list-style:none;padding:0;margin:0}
+.topics li{padding:.5rem .6rem;border-bottom:1px dashed #eef2f7}
+.topics button{background:transparent;border:0;padding:0;color:inherit;text-align:left;width:100%;cursor:pointer}
 
 
-function filterNav(query){
-const q = query.trim().toLowerCase();
-Array.from(navList.children).forEach(node=>{
-// skip section labels
-if(node.classList.contains('section')) return;
-const text = (node.innerText || '').toLowerCase();
-const kw = (node.dataset.keyword || '').toLowerCase();
-const match = q === '' || text.indexOf(q) !== -1 || kw.indexOf(q) !== -1;
-node.style.display = match ? '' : 'none';
-})
+/* responsive */
+@media (max-width:900px){
+.sidebar{position:fixed;z-index:60;left:0;top:64px;height:calc(100vh - 64px)}
+.toggle-sidebar{display:inline-block;margin-right:.5rem}
+.sidebar.collapsed{transform:translateX(-100%)}
 }
 
 
-// Global search: focus slash shortcut and basic content search
-const globalSearch = document.getElementById('globalSearch');
-const contentSearch = document.getElementById('contentSearch');
-const searchResults = document.getElementById('searchResults');
+/* small touches */
+.muted{color:var(--muted)}
+.btn{background:var(--accent);color:#fff;padding:.45rem .7rem;border-radius:8px;border:0;cursor:pointer}
+.secondary{background:transparent;border:1px solid #d6dae3;padding:.4rem .6rem;border-radius:8px}
 
 
-// Shortcut to focus global search when pressing '/'
-window.addEventListener('keydown', (e)=>{
-if(e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA'){
-e.preventDefault(); globalSearch.focus();
-}
-});
+/* focus outline for accessibility */
+:focus{outline:3px solid rgba(11,116,222,.15);outline-offset:2px}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Saltar al contenido</a>
 
 
-// Simple content search demo: matches hard-coded items
-const demoItems = [
-'Camiseta deportiva', 'Zapatillas running', 'Chaqueta impermeable', 'Pantalones vaqueros',
-'Bolso de mano', 'Cargador USB-C', 'Auriculares Bluetooth'
-];
+<header role="banner">
+<button class="toggle-sidebar" id="btnToggleSidebar" aria-label="Mostrar u ocultar menú lateral">☰</button>
+<div class="brand">Temario — Navegación UX</div>
 
 
-contentSearch.addEventListener('input', ()=>{
-const q = contentSearch.value.trim().toLowerCase();
-if(q === ''){ searchResults.innerHTML = '' ; return }
-const matches = demoItems.filter(i=> i.toLowerCase().includes(q));
-if(matches.length===0){ searchResults.innerHTML = '<div class="muted">No se encontraron resultados.</div>'; return }
-searchResults.innerHTML = '<ul>' + matches.map(m=> '<li>'+m+'</li>').join('') + '</ul>';
-});
+<div class="top-controls">
+<div class="dropdown" id="topDropdown" aria-expanded="false">
+<button id="btnResources" aria-haspopup="true" aria-controls="menuResources">Recursos ▾</button>
+<div class="menu" id="menuResources" role="menu">
+<a role="menuitem" href="#">Guía de navegación</a>
+<a role="menuitem" href="#">Checklist de accesibilidad</a>
+<a role="menuitem" href="#">Ejemplos</a>
+</div>
+</div>
 
 
-// Accessibility: close sidebar on escape (mobile)
-window.addEventListener('keydown', (e)=>{
-if(e.key === 'Escape') sidebar.classList.remove('open');
-});
+<div class="search" role="search" aria-label="Buscar en el temario">
+<input id="searchInput" type="search" placeholder="Buscar (ej. accesibilidad, breadcrumb)" aria-label="Buscar en el temario" />
+<button aria-label="Limpiar búsqueda" id="clearSearch">✕</button>
+</div>
 
 
-// Close other open submenus if desired (optional)
-// document.querySelectorAll('.has-sub > .sub-toggle').forEach(btn => {
-// btn.addEventListener('click', () => {
-// // close siblings
-// });
-// });
-</script>
-</body>
-</html>
+<button class="secondary" id="helpBtn">Ayuda</button>
+</div>
+</header>
